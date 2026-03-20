@@ -131,6 +131,7 @@ We look this line
 + r/r * 522629: messages
 ...
 + r/r * 532021: dont-delete.gz
+```
 Dấu * trong The Sleuth Kit nghĩa là file đã bị deleted nhưng inode vẫn còn → ta vẫn có thể recover. Và chúng ta còn thấy file dont-delete.gz, khả năng cao là nó
 Bước 1 — Extract file đã bị xoá
 Dùng icat với inode 532021 và giải nén nó ra 
@@ -142,7 +143,6 @@ và cat nó
 └─$ cat dont-delete 
 Here is your flag
 picoCTF{d3l_d0n7_h1d3_w3ll_bc352004}
-
 ```
 
 
