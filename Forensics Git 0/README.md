@@ -32,6 +32,7 @@ First, I gunzip file .gz and get file disko-4.dd, try check file by command:
 Trong các bài của picoCTF, flag thường nằm trong filesystem Linux, nên ta phải mount hoặc browse partition đó. 
 Bước 1 — Dùng offset để xem filesystem
 ```
+mmls disk.img
 fls -r -o 2048 disk.img
 fls -r -o 1140736 disk.img
 ```
@@ -262,3 +263,46 @@ index 0000000..46064ac
 @@ -0,0 +1 @@
 +The picoCTF flag format is 'picoCTF{}' where there is some leetspeak phrase in between the curly braces
 ```
+Actually, we just need try recover the third partittion:
+```
+┌──(kali㉿kali)-[~/Downloads/picoctf2026/Forensics Git 0]
+└─$ mmls disk.img 
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000616447   0000614400   Linux (0x83)
+003:  000:001   0000616448   0001140735   0000524288   Linux Swap / Solaris x86 (0x82)
+004:  000:002   0001140736   0002097151   0000956416   Linux (0x83)
+we try: tsk_recover -o 1140736 disk.img extracted
+and cd extracted and ls
+```
+but this just root system and it don't have /home, the home folder is where user data is stored. And we try find .git. We will use fls to list entire filesystem:
+```
+fls -r -o 1140736 disk.img | grep ".git"
+```
+And we detect:
+```
+++++ d/d 65665: .git
+```
+It is clear sign of reposition Git and we try extract entire data, recover entire filesystem:
+```
+tsk_recover -o 1140736 disk.img repo
+```
+And find in repo:
+```
+cd repo
+find . -name ".git"
+```
+and we see: ./home/ctf-player/Code/secrets/.git
+This is poject of user 
+Next, we try analys repository Git:
+```
+cd home/ctf-player/Code/secrets
+ls
+```
+and we see file note.txt. And this is progress. 
+
