@@ -236,4 +236,29 @@ note.txt
 └─$ cat note.txt                   
 The picoCTF flag format is 'picoCTF{}' where there is some leetspeak phrase in between the curly braces
 ```
-This just Hint
+This just Hint of challenge, but I think file have been deleted, and I try see old commit by command:
+```
+git log -p
+```
+and I found flag:
+```
+┌──(kali㉿kali)-[~/…/home/ctf-player/Code/secrets]
+└─$ cat note.txt 
+The picoCTF flag format is 'picoCTF{}' where there is some leetspeak phrase in between the curly braces
+                                                                                                                                                                                                                                           
+┌──(kali㉿kali)-[~/…/home/ctf-player/Code/secrets]
+└─$ git log -p        
+commit 327681bb38cf467cec328eec9707b240e3e74ced (HEAD -> master)
+Author: ctf-player <ctf-player@example.com>
+Date:   Wed Nov 19 08:49:27 2025 +0000
+
+    Wrap this phrase in the flag format: g17_1n_7h3_d15k_041217d8
+
+diff --git a/note.txt b/note.txt
+new file mode 100644
+index 0000000..46064ac
+--- /dev/null
++++ b/note.txt
+@@ -0,0 +1 @@
++The picoCTF flag format is 'picoCTF{}' where there is some leetspeak phrase in between the curly braces
+```
